@@ -40,7 +40,6 @@ class PingBot(IRCClient):
 
     def privmsg(self, user, channel, msg):
         """This will get called when the bot receives a message."""
-        print(user, channel, msg)
         user = user.split('!', 1)[0]
 
         if channel == self.nickname:
@@ -63,9 +62,9 @@ class PingBot(IRCClient):
         new_nick = params[0]
 
         if old_nick in self.nicks:
-            aliases[new_nick] = old_nick
+            self.aliases[new_nick] = old_nick
         elif old_nick in self.aliases.keys() and new_nick not in self.nicks:
-            aliases[new_nick] = aliases['old_nick']
+            self.aliases[new_nick] = self.aliases['old_nick']
 
 
 class PingBotFactory(ReconnectingClientFactory):
