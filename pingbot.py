@@ -46,8 +46,22 @@ class PingBot(IRCClient):
             if msg == 'start':
                 self.nicks.append(user)
                 self.msg(user, 'I eagerly await your pings.')
+            elif msg == 'stop':
+                if user in self.nicks:
+                    self.nicks.remove(user)
+                elif user in self.aliases.keys():
+                    self.nicks.remove(aliases[user])
+                self.msg(user, 'You no longer interest me.')
+            elif msg == 'status':
+                if user in self.nicks:
+                    mod = ''
+                elif user in self.aliases.keys() and self.aliases[user] in self.nicks:
+                    mod = ''
+                else:
+                    mod = ' not'
+                self.msg(user, "I am{0} currently tracking pings to your nick.".format(mod))
             else:
-                self.msg(user, "I'm sorry, but the only command I understand is 'start'.")
+                self.msg(user, "I'm sorry, but the only commands I understand are 'start', 'stop', and 'status'.")
 
         p = msg.split(':', 1)
         if len(p) == 2 and (p[0] in self.nicks or p[0] in self.aliases.keys()):
