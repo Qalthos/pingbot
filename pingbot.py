@@ -64,7 +64,9 @@ class PingBot(IRCClient):
                 self.msg(user, "I'm sorry, but the only commands I understand are 'start', 'stop', and 'status'.")
 
         p = msg.split(':', 1)
-        if len(p) == 2 and (p[0] in self.nicks or p[0] in self.aliases.keys()):
+        if p[0] in self.aliases.keys():
+            p[0] = self.aliases[p[0]]
+        if len(p) == 2 and p[0] in self.nicks:
             nick = p[0]
             ping = p[1]
             time = datetime.now()
