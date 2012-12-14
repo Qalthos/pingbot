@@ -64,7 +64,8 @@ class PingBot(IRCClient):
         if old_nick in self.nicks:
             self.aliases[new_nick] = old_nick
         elif old_nick in self.aliases.keys() and new_nick not in self.nicks:
-            self.aliases[new_nick] = self.aliases['old_nick']
+            self.aliases[new_nick] = self.aliases[old_nick]
+            del self.aliases[old_nick]
 
 
 class PingBotFactory(ReconnectingClientFactory):
